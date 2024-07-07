@@ -1,7 +1,7 @@
-const User = require("../models/userSchema");
+const User = require("../../models/userSchema");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const createError = require("../utils/createError");
+const createError = require("../../utils/createError");
 
 async function signup(req, res, next) {
   const { name, email, password } = req.body;

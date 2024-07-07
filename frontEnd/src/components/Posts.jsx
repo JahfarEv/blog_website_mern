@@ -1,0 +1,51 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+const Posts = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchDatas = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4001/api/user/get-post"
+        );
+        setPosts(response.data.data);
+        console.log(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchDatas();
+  }, []);
+  return (
+    <div
+    className="flex flex-wrap w-full overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700 shadow-md justify-center">
+    {posts.map((item)=>(
+        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 border">
+      <img
+      className="w-full h-48 object-cover "
+        src={item.image}
+        alt="blogimg" />
+         <div class="p-6">
+      <h4 class="block font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+        {item.title}
+      </h4>
+      <p class="block mt-3 font-sans text-xl antialiased font-normal leading-relaxed text-gray-700">
+        {item.description}
+      </p>
+      <p class="block font-sans text-base antialiased font-normal leading-relaxed text-inherit">
+      
+      {item.createdAt}
+    </p>
+    </div>
+    </div>
+    ))}
+    
+   
+     
+    </div>
+  )
+};
+
+export default Posts;
