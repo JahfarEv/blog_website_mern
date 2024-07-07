@@ -1,10 +1,30 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  Input,
+  Textarea,
+  Typography,
+} from "@material-tailwind/react";
+import Navbar from "../components/Navbar";
+import { Footer } from "../components/Footer";
 
 const PostDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [post, setPost] = useState([]);
+  const [editPost, setEditPost] = useState([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [open, setOpen] = React.useState(true);
+
+  // get post by id
 
   useEffect(() => {
     const fetchDatas = async () => {
@@ -20,30 +40,57 @@ const PostDetail = () => {
     };
     fetchDatas();
   }, []);
+
+  //delete post
+  useEffect(() => {});
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:4001/api/user/delete-post/${id}`
+      );
+      navigate("/");
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center h-screen">
+    <>
+    <Navbar/>
+    <div className="flex items-center justify-center h-screen mt-48 mb-48">
       <div className="flex flex-wrap w-3/4 align-middle overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700 shadow-md justify-center">
         <div class="w-full p-2  cursor-pointer">
           <img
             className="w-full h-96 object-cover mt-5"
-            src={post.image}
+            src={post?.image}
             alt="blogimg"
           />
           <div class="p-6">
             <h4 className="block font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-              {post.title}
+              {post?.title}
             </h4>
             <div>
               <p className="block mt-3 font-sans text-xl antialiased font-normal leading-relaxed text-gray-700 text-left">
-                {post.description}
+                {post?.description}
               </p>
             </div>
-            <button className="bg-blue-700 text-white p-2">EDIT</button>
-            <button className="bg-red-800 text-white p-2 m-2">DELETE</button>
+            <Link to="/edit-post">
+              <button className="bg-blue-700 text-white p-2">EDIT</button>
+            </Link>
+            <button
+              onClick={handleDelete}
+              className="bg-red-800 text-white p-2 m-2"
+            >
+              DELETE
+            </button>
           </div>
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

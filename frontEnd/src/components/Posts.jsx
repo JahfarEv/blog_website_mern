@@ -21,7 +21,7 @@ const Posts = () => {
   }, []);
   return (
     <div
-    className="flex flex-wrap w-full overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700 shadow-md justify-center">
+    className="flex flex-wrap w-full overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700 shadow-md justify-center mt-24">
     {posts.map((item)=>(
         <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 border cursor-pointer">
         <Link to={`post-detail/${item._id}`}>

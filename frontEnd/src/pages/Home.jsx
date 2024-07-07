@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Posts from '../components/Posts'
+import { Footer } from '../components/Footer'
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
     <Navbar/>
     <div>
       <Posts/>
+      <Footer/>
     </div>
     </div>
   )

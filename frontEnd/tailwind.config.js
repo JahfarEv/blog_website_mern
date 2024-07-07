@@ -19,6 +19,6 @@ export default {
       lineClamp: ['hover'],
     },
   },
-  plugins: [require('@tailwindcss/line-clamp'),],
+  plugins: [],
 }
 

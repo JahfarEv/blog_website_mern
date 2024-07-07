@@ -3,6 +3,12 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const createError = require("../../utils/createError");
 
+const signToken = (id) => {
+  return jwt.sign({ id, isAdmin: false }, process.env.SECRET_STR, {
+    expiresIn: process.env.LOGIN_EXPIRES,
+  });
+};
+
 async function signup(req, res, next) {
   const { name, email, password } = req.body;
 
@@ -46,21 +52,13 @@ async function login(req, res, next) {
       throw createError("invalid password", "ValidPassword");
     }
 
-    const token = jwt.sign(
-      {
-        id: validUser._id,
-        isAdmin: validUser.isAdmin,
-      },
-      process.env.TOKEN_SECRET
-    );
-    const { password: pass, ...rest } = validUser._doc;
+    const token = signToken(validUser._id);
 
-    res
-      .status(200)
-      .cookie("access_token", token, {
-        httpOnly: true,
-      })
-      .json(rest);
+    res.status(200).json({
+      status: "success",
+      token,
+      validUser,
+    });
   } catch (error) {
     next(error);
   }

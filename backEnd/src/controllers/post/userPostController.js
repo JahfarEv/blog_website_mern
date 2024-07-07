@@ -65,9 +65,9 @@ async function editPost(req, res, next) {
 
     const updatePost = await Post.findByIdAndUpdate(
       id,
-      { title, image, description },
+      {title, image, description },
       { new: true }
-    );
+    ).save();
 
     res.status(200).json({
       status: "success",

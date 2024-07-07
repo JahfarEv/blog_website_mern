@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   Dialog,
@@ -11,34 +11,32 @@ import {
   Textarea,
   Typography,
 } from "@material-tailwind/react";
-import Home from "./Home";
 import axios from "axios";
 
-export function Post() {
+export function EditModal() {
   const navigate = useNavigate();
-  
-
+  const { id } = useParams();
+console.log(id);
   const [open, setOpen] = React.useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
+console.log(title);
+  //update post
 
-  // create post function
-
-  const handleCreate = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description);
       formData.append("image", image);
-      console.log(title, description);
-      const response = await axios.post(
-        "http://localhost:4001/api/user/post",
+      const response = await axios.put(
+        `http://localhost:4001/api/user/edit-post/${id}`,
         formData
       );
-      if (response.status === 201) {
-        console.log("successfully created", response);
+      if (response.status === 200) {
+        console.log("successfully updated", response);
         navigate("/");
       }
     } catch (error) {
@@ -51,9 +49,7 @@ export function Post() {
   return (
     <>
       <Dialog open={open} size="xs" handler={handleOpen}>
-        <div className="flex items-center justify-between p-5">
-         
-        </div>
+        <div className="flex items-center justify-between p-5"></div>
         <DialogBody>
           <Typography className="mb-10 -mt-7 " color="gray" variant="lead">
             Write your story
@@ -66,7 +62,7 @@ export function Post() {
               <Input label="Title" />
             </div>
             <div onChange={(e) => setDescription(e.target.value)}>
-            {/* <JoditEditor ref={editor}
+              {/* <JoditEditor ref={editor}
               value={content}
               onChange={newContent=>setContent(newContent)}
             /> */}
@@ -74,21 +70,17 @@ export function Post() {
             </div>
           </div>
         </DialogBody>
-        <Input
-          id="picture"
-          type="file"
-          onChange={(e) => setImage(e.target.files[0])}
-        />
+        <Input id="picture" type="file"
+        onChange={(e) => setImage(e.target.files[0])} />
         <DialogFooter className="space-x-2">
           <Button variant="text" color="gray" onClick={handleOpen}>
             <Link to="/"> cancel</Link>
           </Button>
-          <Button variant="gradient" color="gray" onClick={handleCreate}>
+          <Button variant="gradient" color="gray" onClick={handleSubmit}>
             Post
           </Button>
         </DialogFooter>
       </Dialog>
-      <Home />
     </>
   );
 }

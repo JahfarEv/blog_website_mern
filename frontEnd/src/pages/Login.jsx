@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Cookies from 'js-cookie'
 
 export function Login() {
   const [email, setEmail] = useState();
@@ -11,8 +12,14 @@ export function Login() {
     e.preventDefault();
     axios
       .post("http://localhost:4001/api/user/login", { email, password })
-      .then((result) => console.log(result));
-    navigate("/home").catch((err) => console.log(err));
+      .then((result) =>{
+        const token = result.data.token
+        navigate("/")
+        localStorage.setItem('token',token)
+      } 
+    )
+      .catch((err) => console.log(err));
+      
   };
 
   return (
