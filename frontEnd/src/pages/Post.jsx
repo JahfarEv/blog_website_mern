@@ -16,6 +16,8 @@ import axios from "axios";
 
 export function Post() {
   const navigate = useNavigate();
+  
+
   const [open, setOpen] = React.useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -77,6 +79,10 @@ export function Post() {
               <Input label="Title" />
             </div>
             <div onChange={(e) => setDescription(e.target.value)}>
+            {/* <JoditEditor ref={editor}
+              value={content}
+              onChange={newContent=>setContent(newContent)}
+            /> */}
               <Textarea label="Tell your story..." />
             </div>
           </div>

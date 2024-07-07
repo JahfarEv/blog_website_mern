@@ -7,8 +7,18 @@ export default {
     "node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      lineClamp: {
+        10:"10",
+        12:"12",
+      },
+    },
   },
-  plugins: [],
+  variants:{
+    extend: {
+      lineClamp: ['hover'],
+    },
+  },
+  plugins: [require('@tailwindcss/line-clamp'),],
 }
 
