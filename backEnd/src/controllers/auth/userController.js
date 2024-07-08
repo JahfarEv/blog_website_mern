@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const createError = require("../../utils/createError");
 const crypto = require("crypto");
+const  Token  = require("../../models/token");
 
 const signToken = (id) => {
   return jwt.sign({ id, isAdmin: false }, process.env.SECRET_STR, {
@@ -28,7 +29,7 @@ async function signup(req, res, next) {
     name,
     email,
     password,
-    emailToken: crypto.randomBytes(64).toString("hex"),
+   
   });
   try {
     await newUser.save();
@@ -37,6 +38,10 @@ async function signup(req, res, next) {
     next(error);
   }
 }
+//token
+
+
+
 
 //verify email
 
