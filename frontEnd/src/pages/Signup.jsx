@@ -1,22 +1,23 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../utils/axiosInterceptors";
 export function Signup() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:4001/api/user/signup", { name, email, password })
+
+    api
+      .post("/user/signup", { name, email, password })
       .then((result) => {
-        console.log(result)
-        navigate('/')
+        console.log(result);
+        navigate("/");
       })
       .catch((err) => console.log(err));
-
   };
 
   return (

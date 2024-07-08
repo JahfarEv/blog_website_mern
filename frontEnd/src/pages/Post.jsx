@@ -12,11 +12,10 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Home from "./Home";
-import axios from "axios";
+import api from "../utils/axiosInterceptors";
 
 export function Post() {
   const navigate = useNavigate();
-  
 
   const [open, setOpen] = React.useState(true);
   const [title, setTitle] = useState("");
@@ -33,10 +32,7 @@ export function Post() {
       formData.append("description", description);
       formData.append("image", image);
       console.log(title, description);
-      const response = await axios.post(
-        "http://localhost:4001/api/user/post",
-        formData
-      );
+      const response = await api.post("/user/post", formData);
       if (response.status === 201) {
         console.log("successfully created", response);
         navigate("/");
@@ -51,9 +47,7 @@ export function Post() {
   return (
     <>
       <Dialog open={open} size="xs" handler={handleOpen}>
-        <div className="flex items-center justify-between p-5">
-         
-        </div>
+        <div className="flex items-center justify-between p-5"></div>
         <DialogBody>
           <Typography className="mb-10 -mt-7 " color="gray" variant="lead">
             Write your story
@@ -66,7 +60,7 @@ export function Post() {
               <Input label="Title" />
             </div>
             <div onChange={(e) => setDescription(e.target.value)}>
-            {/* <JoditEditor ref={editor}
+              {/* <JoditEditor ref={editor}
               value={content}
               onChange={newContent=>setContent(newContent)}
             /> */}

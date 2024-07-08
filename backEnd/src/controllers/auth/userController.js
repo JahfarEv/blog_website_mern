@@ -25,18 +25,19 @@ async function signup(req, res, next) {
     next(createError("All field are required", "ValidationError"));
   }
 
-  const newUser = new User({
+  const newUser = new User(
     name,
     email,
     password,
    
-  });
+  );
   try {
     await newUser.save();
     res.json("Signup successfull");
   } catch (error) {
     next(error);
   }
+  console.log(emailToken);
 }
 //token
 

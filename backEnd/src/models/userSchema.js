@@ -15,12 +15,12 @@ const userSchema = mongoose.Schema({
         minLength:6,
         required:true,
     },
-    // isVerified:{
-    //     type: Boolean, default:false
-    // },
-    // emailToken:{
-    //     type:String
-    // },
+    isVerified:{
+        type: Boolean, default:false
+    },
+    emailToken:{
+        type:String
+    },
 })
 userSchema.pre('save', async function(next) {    
     const user = this;

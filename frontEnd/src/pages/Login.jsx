@@ -1,17 +1,17 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-const baseUrl = import.meta.env.BASE_URL;
+import api from "../utils/axiosInterceptors";
 
 export function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
-  console.log(email, password);
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:4001/api/user/login", { email, password })
+    console.log(api);
+    api
+      .post("/user/login", { email, password })
       .then((result) => {
         const token = result.data.token;
         const userId = result.data.validUser._id;

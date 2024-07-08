@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import api from "../utils/axiosInterceptors";
 
 const PostDetail = () => {
   const navigate = useNavigate();
@@ -14,9 +15,7 @@ const PostDetail = () => {
   useEffect(() => {
     const fetchDatas = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4001/api/user/get-post/${id}`
-        );
+        const response = await api.get(`/user/get-post/${id}`);
         setPost(response.data.data.post);
         console.log(response.data.data);
       } catch (error) {
@@ -30,9 +29,7 @@ const PostDetail = () => {
   useEffect(() => {});
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(
-        `http://localhost:4001/api/user/delete-post/${id}`
-      );
+      const response = await api.delete(`/user/delete-post/${id}`);
       navigate("/");
 
       console.log(response);

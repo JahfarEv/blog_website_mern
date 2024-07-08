@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import axios from "axios";
+import api from "../utils/axiosInterceptors";
 
 export function EditModal() {
   const navigate = useNavigate();
@@ -31,10 +32,7 @@ export function EditModal() {
       formData.append("title", title);
       formData.append("description", description);
       formData.append("image", image);
-      const response = await axios.put(
-        `http://localhost:4001/api/user/edit-post/${id}`,
-        formData
-      );
+      const response = await api.put(`/user/edit-post/${id}`, formData);
       if (response.status === 200) {
         console.log("successfully updated", response);
         navigate("/");
@@ -62,7 +60,6 @@ export function EditModal() {
               <Input label="Title" />
             </div>
             <div onChange={(e) => setDescription(e.target.value)}>
-           
               <Textarea label="Tell your story..." />
             </div>
           </div>

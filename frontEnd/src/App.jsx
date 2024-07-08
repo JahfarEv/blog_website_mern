@@ -7,11 +7,9 @@ import PostDetail from "./pages/PostDetail";
 import { Signup } from "./pages/Signup";
 import { Route, Routes, useNavigate, useParams } from "react-router-dom";
 import VerifyEmail from "./pages/VerifyEmail";
-import { createContext } from "react";
 import { AuthContextProvider } from "./context/AuthContext";
 
 function App() {
-  const { id } = useParams();
   return (
     <>
       <AuthContextProvider>
