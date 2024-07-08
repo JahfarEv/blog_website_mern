@@ -2,7 +2,7 @@
 // import { Link } from "react-router-dom";
 
 // const Navbar = () => {
-  
+
 //   return (
 //     <div className="fixed w-full top-0 left-0">
 //       <nav class="block w-full max-w-screen-xl px-6 py-3 mx-auto text-white bg-blue-800 border shadow-md rounded-xl border-white/80 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
@@ -31,7 +31,7 @@
 //                   Login
 //                 </Link>
 //               </li>
-              
+
 //             </ul>
 //           </div>
 //           <button
@@ -112,7 +112,9 @@ const Navbar = () => {
               </svg>
             </span>
           </button>
-          <div className={`lg:flex lg:items-center ${isOpen ? "block" : "hidden"}`}>
+          <div
+            className={`lg:flex lg:items-center ${isOpen ? "block" : "hidden"}`}
+          >
             <ul className="flex flex-col gap-2 my-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
               <li className="block p-1 font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
                 <Link

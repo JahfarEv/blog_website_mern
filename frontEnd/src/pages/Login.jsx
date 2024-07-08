@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+const baseUrl = import.meta.env.BASE_URL;
 
 export function Login() {
   const [email, setEmail] = useState();

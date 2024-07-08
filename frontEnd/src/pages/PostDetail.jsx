@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import {
-  Button,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-  Input,
-  Textarea,
-  Typography,
-} from "@material-tailwind/react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 
@@ -18,11 +8,6 @@ const PostDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [post, setPost] = useState([]);
-  const [editPost, setEditPost] = useState([]);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
-  const [open, setOpen] = React.useState(true);
 
   // get post by id
 

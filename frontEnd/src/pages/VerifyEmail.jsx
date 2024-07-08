@@ -1,9 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import {
-  Alert,
-  CircularProgress,
-} from "@mui/material";
+import { Alert, CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useAuthContext } from "../context/AuthContext";
 const VerifyEmail = () => {
@@ -13,7 +10,7 @@ const VerifyEmail = () => {
   const navigate = useNavigate();
   const { authUser } = useAuthContext();
 
-  const emailToken = localStorage.getItem("emailToken")
+  const emailToken = localStorage.getItem("emailToken");
   console.log(authUser);
   console.log(emailToken);
 
@@ -42,31 +39,31 @@ const VerifyEmail = () => {
     };
   });
 
-  return(
-  <div>
-    {isLoading ? (
-      <div>
-        <CircularProgress />
-      </div>
-    ) : (
-      <div>
-        {user.isVerified ? (
-          <div>
-            <Alert severity="success">
-              Email Successfully verified, redirecting...
-            </Alert>
-          </div>
-        ) : (
-          <div>
-            {error.error ? (
-              <Alert severity="error">{error.message}</Alert>
-            ) : null}
-          </div>
-        )}
-      </div>
-    )}
-  </div>
-  )
+  return (
+    <div>
+      {isLoading ? (
+        <div>
+          <CircularProgress />
+        </div>
+      ) : (
+        <div>
+          {user.isVerified ? (
+            <div>
+              <Alert severity="success">
+                Email Successfully verified, redirecting...
+              </Alert>
+            </div>
+          ) : (
+            <div>
+              {error.error ? (
+                <Alert severity="error">{error.message}</Alert>
+              ) : null}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default VerifyEmail;

@@ -37,11 +37,11 @@ async function getPost(req, res, next) {
 //get post by id
 
 async function getPostById(req, res, next) {
-  const {id} = req.params;
+  const { id } = req.params;
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
     next(createError("Required post id", "ValidationError"));
   }
-  const post = await Post.findById({_id:id});
+  const post = await Post.findById({ _id: id });
   if (!post) {
     next(createError("post not found", "NotFoundError"));
   }
@@ -65,7 +65,7 @@ async function editPost(req, res, next) {
 
     const updatePost = await Post.findByIdAndUpdate(
       id,
-      {title, image, description },
+      { title, image, description },
       { new: true }
     ).save();
 
@@ -103,5 +103,5 @@ module.exports = {
   getPost,
   editPost,
   deletePost,
-  getPostById
+  getPostById,
 };

@@ -69,6 +69,8 @@ const verifyEmail = async (req, res, next) => {
   }
 };
 
+//login
+
 async function login(req, res, next) {
   const { email, password } = req.body;
 
@@ -100,5 +102,5 @@ async function login(req, res, next) {
 module.exports = {
   signup,
   login,
-  verifyEmail
+  verifyEmail,
 };

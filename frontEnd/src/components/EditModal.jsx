@@ -16,12 +16,12 @@ import axios from "axios";
 export function EditModal() {
   const navigate = useNavigate();
   const { id } = useParams();
-console.log(id);
+  console.log(id);
   const [open, setOpen] = React.useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
-console.log(title);
+  console.log(title);
   //update post
 
   const handleSubmit = async (e) => {
@@ -62,16 +62,16 @@ console.log(title);
               <Input label="Title" />
             </div>
             <div onChange={(e) => setDescription(e.target.value)}>
-              {/* <JoditEditor ref={editor}
-              value={content}
-              onChange={newContent=>setContent(newContent)}
-            /> */}
+           
               <Textarea label="Tell your story..." />
             </div>
           </div>
         </DialogBody>
-        <Input id="picture" type="file"
-        onChange={(e) => setImage(e.target.files[0])} />
+        <Input
+          id="picture"
+          type="file"
+          onChange={(e) => setImage(e.target.files[0])}
+        />
         <DialogFooter className="space-x-2">
           <Button variant="text" color="gray" onClick={handleOpen}>
             <Link to="/"> cancel</Link>
