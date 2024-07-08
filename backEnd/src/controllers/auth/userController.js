@@ -2,6 +2,7 @@ const User = require("../../models/userSchema");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const createError = require("../../utils/createError");
+const crypto = require("crypto");
 
 const signToken = (id) => {
   return jwt.sign({ id, isAdmin: false }, process.env.SECRET_STR, {
@@ -27,6 +28,7 @@ async function signup(req, res, next) {
     name,
     email,
     password,
+    emailToken: crypto.randomBytes(64).toString("hex"),
   });
   try {
     await newUser.save();
@@ -36,20 +38,51 @@ async function signup(req, res, next) {
   }
 }
 
+//verify email
+
+const verifyEmail = async (req, res, next) => {
+  try {
+    const emailToken = req.body.emailToken;
+    if (!emailToken) {
+      next(createError("Required", "ValidationError"));
+    }
+    const user = await User.findOne({ emailToken });
+    if (user) {
+      user.emailToken = null;
+      user.isVerified = true;
+
+      await user.save();
+
+      const token = signToken(user._id);
+      res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        token,
+        isVerified: user?.isVerified,
+      });
+    } else {
+      next(createError("Email verification failed", "NotFoundError"));
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 async function login(req, res, next) {
   const { email, password } = req.body;
 
   if (!email || !password || email === "" || password === "") {
-    throw createError("All field are required", "ValidationError");
+    next(createError("All field are required", "ValidationError"));
   }
   try {
     const validUser = await User.findOne({ email });
     if (!validUser) {
-      throw createError("user not found", "ValidationError");
+      next(createError("user not found", "ValidationError"));
     }
     const validPassword = bcrypt.compareSync(password, validUser.password);
     if (!validPassword) {
-      throw createError("invalid password", "ValidPassword");
+      next(createError("invalid password", "ValidPassword"));
     }
 
     const token = signToken(validUser._id);
@@ -67,4 +100,5 @@ async function login(req, res, next) {
 module.exports = {
   signup,
   login,
+  verifyEmail
 };

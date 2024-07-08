@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Cookies from 'js-cookie'
 
 export function Login() {
   const [email, setEmail] = useState();
@@ -12,14 +11,14 @@ export function Login() {
     e.preventDefault();
     axios
       .post("http://localhost:4001/api/user/login", { email, password })
-      .then((result) =>{
-        const token = result.data.token
-        navigate("/")
-        localStorage.setItem('token',token)
-      } 
-    )
+      .then((result) => {
+        const token = result.data.token;
+        const userId = result.data.validUser._id;
+        navigate("/");
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", userId);
+      })
       .catch((err) => console.log(err));
-      
   };
 
   return (
@@ -73,8 +72,11 @@ export function Login() {
                     <span className="ml-3">Sign in</span>
                   </button>
                   <p className="mt-6 text-xs text-gray-600 text-center">
-                    Dont have an account? <Link to="/signup">
-                    <span className="text-blue-900 font-semibold">Sign up</span>
+                    Dont have an account?{" "}
+                    <Link to="/signup">
+                      <span className="text-blue-900 font-semibold">
+                        Sign up
+                      </span>
                     </Link>
                   </p>
                 </div>
