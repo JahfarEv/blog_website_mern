@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const createError = require("../../utils/createError");
 const crypto = require("crypto");
-const  Token  = require("../../models/token");
 
 const signToken = (id) => {
   return jwt.sign({ id, isAdmin: false }, process.env.SECRET_STR, {
@@ -31,6 +30,10 @@ async function signup(req, res, next) {
     password,
    
   );
+// send email verification to user 
+
+
+
   try {
     await newUser.save();
     res.json("Signup successfull");
