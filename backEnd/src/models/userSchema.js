@@ -14,10 +14,7 @@ const userSchema = mongoose.Schema({
     minLength: 6,
     required: true,
   },
-  verified: {
-    type: Boolean,
-    default: false,
-  },
+
 });
 userSchema.pre(
   "save",

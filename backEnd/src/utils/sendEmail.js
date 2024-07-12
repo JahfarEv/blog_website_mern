@@ -1,6 +1,9 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
-import { v4, uuidv4 } from "uuid";
+const {v4, uuidv4} = require('uuid')
+const {hashString} = require('./index')
+const Verification = require('../models/verification')
+const createError = require('./createError')
 
 dotenv.config();
 const { AUTH_EMAIL, AUTH_PASSWORD, APP_URL } = process.env;
@@ -13,19 +16,19 @@ let transporter = nodemailer.createTransport({
     pass: AUTH_PASSWORD,
   },
 });
-export const sendVerificationEmail = async (user, res) => {
-const { _id, email, lastName} = user;   
-const token = _id + uuidv4();
+const sendVerificationEmail = async (user, res, next) => {
+  const { _id, email, lastName } = user;
+  const token = _id + uuidv4();
 
-const link = PORT + "user/verify" + _id + "/" + token;
+  const link = PORT + "user/verify" + _id + "/" + token;
 
-//mail option
+  //mail option
 
-const mailOtions = {
-  from:AUTH_EMAIL,
-  to:email,
-  subject:"Email verification",
-  html:`<div style= 'font-family:Arial, sans-serif; font-size:20px;color:#333;background-color:
+  const mailOtions = {
+    from: AUTH_EMAIL,
+    to: email,
+    subject: "Email verification",
+    html: `<div style= 'font-family:Arial, sans-serif; font-size:20px;color:#333;background-color:
   <h1 style="color: rgb(8, 56, 188)"> Please verify your email address</h1>
   <hr>
   <h4>Hi ${lastName},</h4>
@@ -42,14 +45,37 @@ const mailOtions = {
   <h5>Best regards </h5>
   <h5>Share fun teams</h5>
   </div>
-  </div>`
+  </div>`,
+  };
+
+  try {
+    const hashedToken = await hashString(token);
+    const newVerificationEmail = await Verification.create({
+      userId: _id,
+      token: hashedToken,
+      createdAt: Date.now(),
+      expireAt: Date.now() + 3600000,
+    });
+
+    if (newVerificationEmail) {
+      transporter
+        .sendMail(mailOtions)
+        .then(() => {
+          res.status(201).send({
+            success: "Pending",
+            message:
+              "Verification email has been sent to your account. Cheack your email further instruction",
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          next(createError("Somthing went wrong", "NotFOundError"));
+        });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
-
-try {
-  const hashedToken = await 
-} catch (error) {
-  console.log(error);
-}
-
-
+module.exports = {
+  sendVerificationEmail
 }
