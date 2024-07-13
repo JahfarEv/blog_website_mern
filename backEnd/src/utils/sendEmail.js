@@ -1,26 +1,27 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
-const {v4, uuidv4} = require('uuid')
-const {hashString} = require('./index')
-const Verification = require('../models/verification')
-const createError = require('./createError')
+const { v4: uuidv4 } = require("uuid");
+const { hashString } = require("./index");
+const Verification = require("../models/verification");
+const createError = require("./createError");
 
 dotenv.config();
 const { AUTH_EMAIL, AUTH_PASSWORD, APP_URL } = process.env;
 
 let transporter = nodemailer.createTransport({
-  host: "smtp-mail.outlook.com",
-
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
     user: AUTH_EMAIL,
     pass: AUTH_PASSWORD,
   },
 });
-const sendVerificationEmail = async (user, res, next) => {
-  const { _id, email, lastName } = user;
-  const token = _id + uuidv4();
+const sendVerificationEmail = async (user, res,token) => {
+  const { _id, email, name } = user;
+  // const token = _id + uuidv4();
 
-  const link = PORT + "user/verify" + _id + "/" + token;
+  const link = `${process.env.APP_URL}/user/verify/${token}`;
 
   //mail option
 
@@ -31,7 +32,7 @@ const sendVerificationEmail = async (user, res, next) => {
     html: `<div style= 'font-family:Arial, sans-serif; font-size:20px;color:#333;background-color:
   <h1 style="color: rgb(8, 56, 188)"> Please verify your email address</h1>
   <hr>
-  <h4>Hi ${lastName},</h4>
+  <h4>Hi ${name},</h4>
   <p>
   Please verify your email address so we can know that its realy you.
   <br>
@@ -69,7 +70,7 @@ const sendVerificationEmail = async (user, res, next) => {
         })
         .catch((err) => {
           console.log(err);
-          next(createError("Somthing went wrong", "NotFOundError"));
+          // next(createError("Somthing went wrong", "NotFOundError"));
         });
     }
   } catch (error) {
@@ -77,5 +78,5 @@ const sendVerificationEmail = async (user, res, next) => {
   }
 };
 module.exports = {
-  sendVerificationEmail
-}
+  sendVerificationEmail,
+};

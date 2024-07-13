@@ -1,11 +1,7 @@
 const User = require("../../models/userSchema");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 const createError = require("../../utils/createError");
-const crypto = require("crypto");
-const hashString = require("../../utils/index");
 const { sendVerificationEmail } = require("../../utils/sendEmail");
-const user = require("../../models/userSchema");
+const { hashString } = require("../../utils");
 
 // const signToken = (id) => {
 //   return jwt.sign({ id, isAdmin: false }, process.env.SECRET_STR, {
@@ -74,10 +70,10 @@ const user = require("../../models/userSchema");
 async function register(req, res, next) {
   const { name, email, password } = req.body;
 
-  //validate fields
-  if (!(name || email || password)) {
-    next(createError("Provide reuired field", "ValidationError"));
-  
+  // validate fields
+  if (!name || !email || !password) {
+    next(createError("Provide reqired field", "ValidationError"));
+  return;
   }
   try {
     const userExist = await User.findOne({ email });
@@ -100,6 +96,7 @@ async function register(req, res, next) {
     res.status(404).json({ message: error.message });
   }
 }
+
 
 //login
 
