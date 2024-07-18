@@ -17,9 +17,9 @@ let transporter = nodemailer.createTransport({
     pass: AUTH_PASSWORD,
   },
 });
-const sendVerificationEmail = async (user, res,token) => {
+const sendVerificationEmail = async (user, res) => {
   const { _id, email, name } = user;
-  // const token = _id + uuidv4();
+  const token = _id + uuidv4();
 
   const link = `${process.env.APP_URL}/user/verify/${token}`;
 

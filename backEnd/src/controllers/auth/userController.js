@@ -73,7 +73,7 @@ async function register(req, res, next) {
   // validate fields
   if (!name || !email || !password) {
     next(createError("Provide reqired field", "ValidationError"));
-  return;
+    return;
   }
   try {
     const userExist = await User.findOne({ email });
@@ -97,7 +97,6 @@ async function register(req, res, next) {
   }
 }
 
-
 //login
 
 async function login(req, res, next) {
@@ -107,12 +106,8 @@ async function login(req, res, next) {
     next(createError("All field are required", "ValidationError"));
   }
   try {
-    const validUser = await User.findOne({ email })
-      .select("+password")
-      .populate({
-        path: "friends",
-        select: "name location profilrUrl -password",
-      });
+    const validUser = await User.findOne({ email }).select("+password");
+
     if (!validUser) {
       next(createError("user not found", "ValidationError"));
     }
@@ -129,7 +124,6 @@ async function login(req, res, next) {
     if (!isMatch) {
       next(createError("Invalid email or password"));
     }
-    user.password = undefined;
 
     const token = createJWT(validUser._id);
 
@@ -146,5 +140,4 @@ async function login(req, res, next) {
 module.exports = {
   register,
   login,
-  
 };
